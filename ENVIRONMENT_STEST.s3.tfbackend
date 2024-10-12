@@ -1,0 +1,4 @@
+bucket = "bucket-blackstone-v1-tfstate-tf-state"
+key = "ENVIRONMENT_STEST.tfstate"
+region = "us-east-1"
+profile = "arn:aws:iam::975050069061:user/blackstone-tf-local-exec"
