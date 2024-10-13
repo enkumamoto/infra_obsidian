@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.4"
+      version = "~> 5.0"
     }
     archive = {
       source  = "hashicorp/archive"
@@ -11,7 +11,6 @@ terraform {
   }
 
   backend "s3" {}
-
 }
 
 # Configure the AWS Provider
