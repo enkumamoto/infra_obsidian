@@ -70,6 +70,10 @@ variable "lambda_monitor_timeout" {
   default = 600
 }
 
+variable "monitor_warning_outputs_table" {
+  type    = string
+}
+
 ##########ECS Cluster Variables#############
 variable "ecs_cluster_id" {
   type        = string

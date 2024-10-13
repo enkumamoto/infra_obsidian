@@ -20,7 +20,7 @@ The project utilizes the AWS VPC Solution Pattern to implement its architecture.
 In addition to the AWS VPC Solution Pattern, the project follows a serverless approach. This means that instead of managing and provisioning servers, the project leverages AWS services such as AWS Lambda, AWS API Gateway, and AWS DynamoDB to build scalable and cost-effective solutions. By adopting a serverless architecture, the project benefits from automatic scaling, reduced operational overhead, and pay-per-use pricing model.
 
 
-![Architecture](./blackstone.jpg)
+![Architecture](./obsidian.jpg)
 
 ## How it works
 

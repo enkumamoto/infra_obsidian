@@ -5,7 +5,7 @@ locals {
 }
 
 resource "aws_ecs_cluster" "ecs_cluster" {
-  name = "blackstone-${var.environment}-Cluster"
+  name = "obsidian-${var.environment}-Cluster"
   tags = local.tags
 }
 

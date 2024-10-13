@@ -36,6 +36,7 @@ module "ingestion" {
   ecs_cluster_id                       = module.ecs_cluster.ecs_cluster_id
   vpc_config_private_app_subnet_ids    = module.networking.private_app_subnet_ids
   vpc_id                               = module.networking.vpc_id
+  monitor_warning_outputs_table        = module.dynamodb.monitor_warning_outputs_table
 }
 
 module "database" {

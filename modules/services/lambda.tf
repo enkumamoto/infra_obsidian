@@ -1,6 +1,6 @@
 ## Lambda loader function
 resource "aws_lambda_function" "lambda_loader" {
-  function_name = "BlackstoneLoader"
+  function_name = "obsidianLoader"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Raw Tags Table"
   memory_size   = var.lambda_memory_size
@@ -24,7 +24,7 @@ resource "aws_lambda_function" "lambda_loader" {
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
   tags = {
-    Name        = "BlackstoneLoader"
+    Name        = "obsidianLoader"
     environment = var.environment
   }
 
@@ -80,7 +80,7 @@ resource "aws_lambda_function" "lambda_duplicated_tags" {
   #   }
   # }
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -89,7 +89,7 @@ resource "aws_lambda_function" "lambda_duplicated_tags" {
   }
 
   tags = {
-    Name        = "BlackstoneDuplicatedTags"
+    Name        = "obsidianDuplicatedTags"
     environment = var.environment
   }
 
@@ -116,7 +116,7 @@ resource "aws_lambda_function" "lambda_component_surveillance" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -125,7 +125,7 @@ resource "aws_lambda_function" "lambda_component_surveillance" {
   }
 
   tags = {
-    Name        = "BlackstoneComponentSurveillance"
+    Name        = "obsidianComponentSurveillance"
     environment = var.environment
   }
 
@@ -135,7 +135,7 @@ resource "aws_lambda_function" "lambda_component_surveillance" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_component_surveillance_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_blackstone_component_surveillance_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_obsidian_component_surveillance_raw.arn
   function_name    = aws_lambda_function.lambda_component_surveillance.arn
 }
 
@@ -152,7 +152,7 @@ resource "aws_lambda_function" "lambda_data_collection_frequency" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -161,7 +161,7 @@ resource "aws_lambda_function" "lambda_data_collection_frequency" {
   }
 
   tags = {
-    Name        = "BlackstoneDataCollectionFrequency"
+    Name        = "obsidianDataCollectionFrequency"
     environment = var.environment
   }
 
@@ -197,7 +197,7 @@ resource "aws_lambda_function" "lambda_dataquality" {
   }
 
   tags = {
-    Name        = "BlackstoneDataQuality"
+    Name        = "obsidianDataQuality"
     environment = var.environment
   }
 
@@ -207,7 +207,7 @@ resource "aws_lambda_function" "lambda_dataquality" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_dataquality_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_blackstone_data_quality_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_obsidian_data_quality_raw.arn
   function_name    = aws_lambda_function.lambda_dataquality.arn
 }
 
@@ -217,7 +217,7 @@ output "lambda_dataquality_arn" {
 
 # Lambda Monitor function
 resource "aws_lambda_function" "lambda_monitor_function" {
-  function_name = "BlackstoneMonitor"
+  function_name = "obsidianMonitor"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
@@ -233,7 +233,7 @@ resource "aws_lambda_function" "lambda_monitor_function" {
   }
 
   tags = {
-    Name        = "BlackstoneMonitor"
+    Name        = "obsidianMonitor"
     environment = var.environment
   }
 
@@ -243,7 +243,7 @@ resource "aws_lambda_function" "lambda_monitor_function" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_monitor_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_blackstone_monitor_trigger.arn
+  event_source_arn = aws_sqs_queue.sqs_obsidian_monitor_trigger.arn
   function_name    = aws_lambda_function.lambda_monitor_function.arn
 }
 
@@ -269,7 +269,7 @@ resource "aws_lambda_function" "lambda_tag_state_function" {
   }
 
   tags = {
-    Name        = "BlackstoneTagState"
+    Name        = "obsidianTagState"
     environment = var.environment
   }
 
@@ -296,7 +296,7 @@ resource "aws_lambda_function" "lambda_data_work_flow_function" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -305,7 +305,7 @@ resource "aws_lambda_function" "lambda_data_work_flow_function" {
   }
 
   tags = {
-    Name        = "BlackstoneDataWorkflow"
+    Name        = "obsidianDataWorkflow"
     environment = var.environment
   }
 
@@ -315,7 +315,7 @@ resource "aws_lambda_function" "lambda_data_work_flow_function" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_data_work_flow_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_blackstone_data_workflow_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_obsidian_data_workflow_raw.arn
   function_name    = aws_lambda_function.lambda_data_work_flow_function.arn
 }
 
@@ -332,7 +332,7 @@ resource "aws_lambda_function" "lambda_tag_config_consistency_function" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -341,7 +341,7 @@ resource "aws_lambda_function" "lambda_tag_config_consistency_function" {
   }
 
   tags = {
-    Name        = "BlackstoneTagConfigConsistency"
+    Name        = "obsidianTagConfigConsistency"
     environment = var.environment
   }
 
@@ -359,16 +359,16 @@ output "lambda_tag_config_consistency_function_arn" {
   value = aws_lambda_function.lambda_tag_config_consistency_function.arn
 }
 
-# Lambda BlackstoneDuplicatedTagsMonitor
+# Lambda obsidianDuplicatedTagsMonitor
 resource "aws_lambda_function" "lambda_duplicated_tags_monitor" {
-  function_name = "BlackstoneDuplicatedTagsMonitor"
+  function_name = "obsidianDuplicatedTagsMonitor"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
   package_type = "Image"
 
   vpc_config {
@@ -377,7 +377,7 @@ resource "aws_lambda_function" "lambda_duplicated_tags_monitor" {
   }
 
   tags = {
-    Name        = "BlackstoneDuplicatedTagsMonitor"
+    Name        = "obsidianDuplicatedTagsMonitor"
     environment = var.environment
   }
 
@@ -395,9 +395,9 @@ output "lambda_duplicated_tags_monitor_arn" {
   value = aws_lambda_function.lambda_duplicated_tags_monitor.arn
 }
 
-# Função BlackstoneMetadataMerger
+# Função obsidianMetadataMerger
 resource "aws_lambda_function" "lambda_metadata_merger_function" {
-  function_name = "BlackstoneMetadataMerger"
+  function_name = "obsidianMetadataMerger"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
@@ -413,7 +413,7 @@ resource "aws_lambda_function" "lambda_metadata_merger_function" {
   }
 
   tags = {
-    Name        = "BlackstoneMetadataMerger"
+    Name        = "obsidianMetadataMerger"
     environment = var.environment
   }
 
@@ -424,12 +424,11 @@ resource "aws_lambda_function" "lambda_metadata_merger_function" {
 
 # Event Source Mapping - Agora usando o ARN do Stream de DynamoDB
 resource "aws_lambda_event_source_mapping" "dynamodb_trigger" {
-  event_source_arn  = data.aws_dynamodb_table.monitor_outputs_metadata_table.stream_arn # Aqui estamos usando o stream_arn
+  event_source_arn  = var.monitor_warning_outputs_table
   function_name     = aws_lambda_function.lambda_metadata_merger_function.arn
   enabled           = true
   batch_size        = 100
   starting_position = "LATEST"
-  depends_on        = [aws_lambda_function.lambda_metadata_merger_function]
 }
 
 output "lambda_metadata_merger_function_arn" {

@@ -8,6 +8,6 @@ data "aws_subnet" "public_subnets" {
   id    = var.vpc_config_public_subnet_ids[count.index]
 }
 
-data "aws_dynamodb_table" "monitor_outputs_metadata_table" {
-  name = "blackstone-monitor-metadata"
-}
+# data "aws_dynamodb_table" "monitor_outputs_metadata_table" {
+#   name = "obsidian-monitor-metadata"
+# }

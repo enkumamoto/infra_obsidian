@@ -18,7 +18,7 @@ O projeto utiliza o Padrão de Solução VPC da AWS para implementar sua arquite
 Além do Padrão de Solução AWS VPC, o projeto segue uma abordagem serverless. Isso significa que, em vez de gerenciar e provisionar servidores, o projeto utiliza serviços da AWS como AWS Lambda, AWS API Gateway e AWS DynamoDB para construir soluções escaláveis e econômicas. Ao adotar uma arquitetura serverless, o projeto se beneficia de escalabilidade automática, redução da sobrecarga operacional e modelo de preços pay-per-use.
 
 
-![Arquitetura](./blackstone.jpg)
+![Arquitetura](./obsidian.jpg)
 
 ## Como funciona
 

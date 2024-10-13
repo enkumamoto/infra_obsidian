@@ -5,7 +5,7 @@ locals {
 }
 
 resource "aws_ecs_service" "ecs_service" {
-  name            = "blackstone_ecs_service_${var.environment}"
+  name            = "obsidian_ecs_service_${var.environment}"
   cluster         = var.ecs_cluster_id
   launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
@@ -27,7 +27,7 @@ resource "aws_ecs_service" "ecs_service" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                   = "blackstone_ecs_task_definition_${var.environment}"
+  family                   = "obsidian_ecs_task_definition_${var.environment}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
@@ -47,8 +47,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       ]
     },
     {
-      name      = "blackstone-api-Service"
-      image     = "${aws_ecr_repository.blackstone-api.repository_url}:latest" # Substituir com a imagem da sua API
+      name      = "obsidian-api-Service"
+      image     = "${aws_ecr_repository.obsidian-api.repository_url}:latest" # Substituir com a imagem da sua API
       essential = true
       portMappings = [
         {
@@ -58,8 +58,8 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       ]
     },
     {
-      name      = "blackstone-ui-Service"
-      image     = "${aws_ecr_repository.blackstone-ui.repository_url}:latest" # Substituir com a imagem da sua API
+      name      = "obsidian-ui-Service"
+      image     = "${aws_ecr_repository.obsidian-ui.repository_url}:latest" # Substituir com a imagem da sua API
       essential = true
       portMappings = [
         {
@@ -101,7 +101,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 # }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "blackstone_ecs_task_execution_role_${var.environment}"
+  name               = "obsidian_ecs_task_execution_role_${var.environment}"
   assume_role_policy = <<EOF
 {
  "Version": "2012-10-17",
@@ -123,7 +123,7 @@ EOF
 
 resource "aws_iam_role_policy" "password_policy_ssm" {
   count = length([for v in var.service_secrets : v]) > 0 ? 1 : 0
-  name  = "password-policy-ssm-blackstone-${var.environment}"
+  name  = "password-policy-ssm-obsidian-${var.environment}"
   role  = aws_iam_role.ecs_task_execution_role.id
 
   policy = <<EOF
@@ -150,14 +150,14 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 }
 
 resource "aws_cloudwatch_log_group" "ecs_service_log_group" {
-  name = "ecs/${var.environment}/blackstone-service-log-group"
+  name = "ecs/${var.environment}/obsidian-service-log-group"
 
   tags = local.tags
 }
 
 resource "aws_security_group" "allow_service_access" {
-  name        = "allow_blackstone_service_access_${var.environment}_${substr(uuid(), 0, 3)}_sg"
-  description = "Allow blackstone alb inbound traffic"
+  name        = "allow_obsidian_service_access_${var.environment}_${substr(uuid(), 0, 3)}_sg"
+  description = "Allow obsidian alb inbound traffic"
   vpc_id      = local.vpc_id
 
   lifecycle {
@@ -165,5 +165,5 @@ resource "aws_security_group" "allow_service_access" {
     ignore_changes        = [name]
   }
 
-  tags = merge(local.tags, { Name = "allow_blackstone_service_access_${var.environment}" })
+  tags = merge(local.tags, { Name = "allow_obsidian_service_access_${var.environment}" })
 }

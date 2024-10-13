@@ -183,7 +183,7 @@ resource "aws_route_table_association" "route_table_association_private_C" {
   route_table_id = aws_route_table.route_table_private_C.id
 }
 
-resource "aws_security_group" "BlackStoneSG" {
+resource "aws_security_group" "obsidianSG" {
   vpc_id = aws_vpc.main.id
   tags   = merge(local.tags, { Name = "sg_${var.environment}" })
 }

@@ -1,6 +1,6 @@
 ### ECR for container images
-resource "aws_ecr_repository" "blackstone-ui" {
-  name                 = "blackstone/blackstone-ui"
+resource "aws_ecr_repository" "obsidian-ui" {
+  name                 = "obsidian/obsidian-ui"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -10,12 +10,12 @@ resource "aws_ecr_repository" "blackstone-ui" {
   tags = local.tags
 }
 
-output "blackstone-ui_url" {
-  value = aws_ecr_repository.blackstone-ui.repository_url
+output "obsidian-ui_url" {
+  value = aws_ecr_repository.obsidian-ui.repository_url
 }
 
-resource "aws_ecr_repository" "blackstone-api" {
-  name                 = "blackstone/blackstone-api"
+resource "aws_ecr_repository" "obsidian-api" {
+  name                 = "obsidian/obsidian-api"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -25,12 +25,12 @@ resource "aws_ecr_repository" "blackstone-api" {
   tags = local.tags
 }
 
-output "blackstone-api_url" {
-  value = aws_ecr_repository.blackstone-api.repository_url
+output "obsidian-api_url" {
+  value = aws_ecr_repository.obsidian-api.repository_url
 }
 
 resource "aws_ecr_repository" "datapolling" {
-  name                 = "blackstone/datapolling"
+  name                 = "obsidian/datapolling"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -45,7 +45,7 @@ output "datapolling" {
 }
 
 resource "aws_ecr_repository" "keycloak" {
-  name                 = "blackstone/keycloak"
+  name                 = "obsidian/keycloak"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -61,7 +61,7 @@ output "keycloak" {
 
 ## ECR for Lambda functions
 resource "aws_ecr_repository" "dataquality-function" {
-  name                 = "blackstone/lambda/dataquality-function"
+  name                 = "obsidian/lambda/dataquality-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -76,7 +76,7 @@ output "dataquality-function" {
 }
 
 resource "aws_ecr_repository" "duplicatedtags-function" {
-  name                 = "blackstone/lambda/duplicatedtags-function"
+  name                 = "obsidian/lambda/duplicatedtags-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -91,7 +91,7 @@ output "duplicatedtags-function" {
 }
 
 resource "aws_ecr_repository" "loader-function" {
-  name                 = "blackstone/lambda/loader-function"
+  name                 = "obsidian/lambda/loader-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -106,7 +106,7 @@ output "loader-function" {
 }
 
 resource "aws_ecr_repository" "metadata-merger-function" {
-  name                 = "blackstone/lambda/metadata-merger-function"
+  name                 = "obsidian/lambda/metadata-merger-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -121,7 +121,7 @@ output "metadata-merger-function" {
 }
 
 resource "aws_ecr_repository" "monitor-function" {
-  name                 = "blackstone/lambda/monitor-function"
+  name                 = "obsidian/lambda/monitor-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -136,7 +136,7 @@ output "monitor-function" {
 }
 
 resource "aws_ecr_repository" "tagstate-function" {
-  name                 = "blackstone/lambda/tagstate-function"
+  name                 = "obsidian/lambda/tagstate-function"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -278,48 +278,48 @@ resource "docker_registry_image" "monitor-function_ecr" {
 }
 
 ## Container images
-## Blackstone UI
-data "docker_registry_image" "blackstone-ui" {
+## obsidian UI
+data "docker_registry_image" "obsidian-ui" {
   name = "hello-world"
 }
 
-resource "docker_image" "blackstone-ui" {
-  name = data.docker_registry_image.blackstone-ui.name
+resource "docker_image" "obsidian-ui" {
+  name = data.docker_registry_image.obsidian-ui.name
 }
 
-resource "docker_tag" "blackstone-ui_ecr_tag" {
-  target_image = "${aws_ecr_repository.blackstone-ui.repository_url}:latest"
-  source_image = data.docker_registry_image.blackstone-ui.name
+resource "docker_tag" "obsidian-ui_ecr_tag" {
+  target_image = "${aws_ecr_repository.obsidian-ui.repository_url}:latest"
+  source_image = data.docker_registry_image.obsidian-ui.name
 }
 
-output "image-blackstone-ui" {
-  value = "${aws_ecr_repository.blackstone-ui.repository_url}:latest"
+output "image-obsidian-ui" {
+  value = "${aws_ecr_repository.obsidian-ui.repository_url}:latest"
 }
 
-resource "docker_registry_image" "blackstone-ui_ecr" {
-  name = "${aws_ecr_repository.blackstone-ui.repository_url}:latest"
+resource "docker_registry_image" "obsidian-ui_ecr" {
+  name = "${aws_ecr_repository.obsidian-ui.repository_url}:latest"
 }
 
-## Blackstone API
-data "docker_registry_image" "blackstone-api" {
+## obsidian API
+data "docker_registry_image" "obsidian-api" {
   name = "hello-world"
 }
 
-resource "docker_image" "blackstone-api" {
-  name = data.docker_registry_image.blackstone-api.name
+resource "docker_image" "obsidian-api" {
+  name = data.docker_registry_image.obsidian-api.name
 }
 
-resource "docker_tag" "blackstone-api_ecr_tag" {
-  target_image = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
-  source_image = data.docker_registry_image.blackstone-api.name
+resource "docker_tag" "obsidian-api_ecr_tag" {
+  target_image = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
+  source_image = data.docker_registry_image.obsidian-api.name
 }
 
-output "image-blackstone-api" {
-  value = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+output "image-obsidian-api" {
+  value = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
 }
 
-resource "docker_registry_image" "blackstone-api_ecr" {
-  name = "${aws_ecr_repository.blackstone-api.repository_url}:latest"
+resource "docker_registry_image" "obsidian-api_ecr" {
+  name = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
 }
 
 ## Data Polling

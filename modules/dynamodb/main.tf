@@ -24,11 +24,12 @@ module "vpc_endpoints" {
 }
 
 resource "aws_dynamodb_table" "raw_tags_table" {
-  name             = "blackstone-raw-tags"
+  name             = "obsidian-raw-tags"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "RawTagsId"
   range_key        = "Timestamp"
 
@@ -49,11 +50,12 @@ resource "aws_dynamodb_table" "raw_tags_table" {
 }
 
 resource "aws_dynamodb_table" "module_outputs_table" {
-  name             = "blackstone-module-outputs"
+  name             = "obsidian-module-outputs"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "ModuleOutputsId"
   range_key        = "Timestamp"
 
@@ -74,11 +76,12 @@ resource "aws_dynamodb_table" "module_outputs_table" {
 }
 
 resource "aws_dynamodb_table" "module_config_table" {
-  name             = "blackstone-module-configs"
+  name             = "obsidian-module-configs"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "ModuleConfigsId"
   range_key        = "Timestamp"
 
@@ -99,11 +102,12 @@ resource "aws_dynamodb_table" "module_config_table" {
 }
 
 resource "aws_dynamodb_table" "monitor_outputs_metadata_table" {
-  name             = "blackstone-monitor-metadata"
+  name             = "obsidian-monitor-metadata"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "MonitorMetadataId"
   range_key        = "Timestamp"
 
@@ -124,11 +128,12 @@ resource "aws_dynamodb_table" "monitor_outputs_metadata_table" {
 }
 
 resource "aws_dynamodb_table" "monitor_warning_outputs_table" {
-  name             = "blackstone-monitor-warnings"
+  name             = "obsidian-monitor-warnings"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "MonitorWarningId"
   range_key        = "Timestamp"
 
@@ -148,12 +153,17 @@ resource "aws_dynamodb_table" "monitor_warning_outputs_table" {
   }
 }
 
+output "monitor_warning_outputs_table" {
+  value = aws_dynamodb_table.monitor_outputs_metadata_table.stream_arn
+}
+
 resource "aws_dynamodb_table" "group_config_table" {
-  name             = "blackstone-group-configs"
+  name             = "obsidian-group-configs"
   billing_mode     = "PROVISIONED"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
   read_capacity    = 5000
+  write_capacity   = 5000
   hash_key         = "GroupConfigId"
   range_key        = "Timestamp"
 
