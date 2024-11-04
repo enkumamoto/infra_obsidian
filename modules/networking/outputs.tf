@@ -7,5 +7,5 @@ output "intra_route_table_ids" {
 }
 
 output "security_group_ids" {
-  value = aws_security_group.obsidianSG.id
+  value = aws_security_group.blackstoneSG.id
 }

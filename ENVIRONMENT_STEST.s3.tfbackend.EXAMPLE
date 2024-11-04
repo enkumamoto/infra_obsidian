@@ -1,4 +1,4 @@
 bucket = "bucket-name-tfstate-tf-state"
 key = "ENVIRONMENT_STEST.tfstate"
-aws_region = "us-east-x"
+region = "us-east-x"
 profile = "arn:aws:iam::ACCOUNT_ID:user/USER_NAME"

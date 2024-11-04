@@ -4,7 +4,7 @@ resource "aws_kms_key" "sqs_key" {
   tags                    = merge(local.tags, { Name = "sqs_key_${var.environment}" })
 }
 
-# obsidianLoader Lambda
+# blackstoneLoader Lambda
 resource "aws_sqs_queue" "sqs_dataextractor_add_pipoint" {
   name                       = "dataextractor-add-pipoint"
   delay_seconds              = var.sqs_delayseconds
@@ -122,7 +122,7 @@ resource "aws_sqs_queue" "sqs_dataextractor-duplicated-pipoint" {
 }
 
 # Lambda ComponentSurveillance
-resource "aws_sqs_queue" "sqs_obsidian_component_surveillance_raw" {
+resource "aws_sqs_queue" "sqs_blackstone_component_surveillance_raw" {
   name                       = "obsidian-component-surveillance-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
@@ -137,7 +137,7 @@ resource "aws_sqs_queue" "sqs_obsidian_component_surveillance_raw" {
 }
 
 # Lambda MonitorTrigger
-resource "aws_sqs_queue" "sqs_obsidian_monitor_trigger" {
+resource "aws_sqs_queue" "sqs_blackstone_monitor_trigger" {
   name                       = "obsidian-monitor-trigger"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
@@ -194,7 +194,7 @@ resource "aws_sqs_queue" "sqs_monitor_job" {
   tags = local.tags
 }
 
-resource "aws_sqs_queue" "sqs_obsidian_data_workflow_raw" {
+resource "aws_sqs_queue" "sqs_blackstone_data_workflow_raw" {
   name                       = "obsidian-data-workflow-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
@@ -208,7 +208,7 @@ resource "aws_sqs_queue" "sqs_obsidian_data_workflow_raw" {
   tags = local.tags
 }
 
-resource "aws_sqs_queue" "sqs_obsidian_data_quality_raw" {
+resource "aws_sqs_queue" "sqs_blackstone_data_quality_raw" {
   name                       = "obsidian-data-quality-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size

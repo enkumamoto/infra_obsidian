@@ -1,6 +1,6 @@
 ## Lambda loader function
 resource "aws_lambda_function" "lambda_loader" {
-  function_name = "obsidianLoader"
+  function_name = "BlackstoneLoader"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Raw Tags Table"
   memory_size   = var.lambda_memory_size
@@ -13,23 +13,28 @@ resource "aws_lambda_function" "lambda_loader" {
       sqs_dataextractor_update_pipoint  = aws_sqs_queue.sqs_dataextractor_update_pipoint.url
       sqs_dataextractor_remove_pipoint  = aws_sqs_queue.sqs_dataextractor_remove_pipoint.url
       sqs_dataextractor_general_pipoint = aws_sqs_queue.sqs_dataextractor_general_pipoint.url
+      AWS__Region                       = var.region # adiciona esta variável em todas as lambdas
     }
   }
 
-  image_uri    = "${aws_ecr_repository.loader-function.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
+
   tags = {
-    Name        = "obsidianLoader"
+    Name        = "BlackstoneLoader"
     environment = var.environment
   }
 
   lifecycle {
-    ignore_changes = [image_uri]
+    ignore_changes = [s3_key]
   }
 }
 
@@ -74,27 +79,28 @@ resource "aws_lambda_function" "lambda_duplicated_tags" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  # environment {
-  #   variables = {
-  #     sqs_dataextractor_duplicated_pipoint = aws_sqs_queue.sqs_dataextractor_duplicated_pipoint.url
-  #   }
-  # }
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
-
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianDuplicatedTags"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneDuplicatedTags"
+    environment = var.environment
   }
 }
 
@@ -116,26 +122,34 @@ resource "aws_lambda_function" "lambda_component_surveillance" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianComponentSurveillance"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneComponentSurveillance"
+    environment = var.environment
   }
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_component_surveillance_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_obsidian_component_surveillance_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_blackstone_component_surveillance_raw.arn
   function_name    = aws_lambda_function.lambda_component_surveillance.arn
 }
 
@@ -152,21 +166,29 @@ resource "aws_lambda_function" "lambda_data_collection_frequency" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianDataCollectionFrequency"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneDataCollectionFrequency"
+    environment = var.environment
   }
 }
 
@@ -188,26 +210,34 @@ resource "aws_lambda_function" "lambda_dataquality" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.dataquality-function.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianDataQuality"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneDataQuality"
+    environment = var.environment
   }
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_dataquality_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_obsidian_data_quality_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_blackstone_data_quality_raw.arn
   function_name    = aws_lambda_function.lambda_dataquality.arn
 }
 
@@ -217,34 +247,47 @@ output "lambda_dataquality_arn" {
 
 # Lambda Monitor function
 resource "aws_lambda_function" "lambda_monitor_function" {
-  function_name = "obsidianMonitor"
+  function_name = "BlackstoneMonitor"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
   timeout       = var.lambda_monitor_timeout # 10 minutes timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.monitor-function.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianMonitor"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneMonitor"
+    environment = var.environment
   }
 }
 
-resource "aws_lambda_event_source_mapping" "lambda_monitor_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_obsidian_monitor_trigger.arn
-  function_name    = aws_lambda_function.lambda_monitor_function.arn
+# Event Source Mapping - Agora usando o ARN do Stream de DynamoDB
+resource "aws_lambda_event_source_mapping" "dynamodb_lambda_monitor_function_trigger" {
+  event_source_arn       = var.module_outputs_table # criar novo output no dynamodb e declarar no infra module
+  function_name          = aws_lambda_function.lambda_monitor_function.arn
+  enabled                = true
+  batch_size             = 100
+  parallelization_factor = 10
+  starting_position      = "LATEST"
 }
 
 output "lambda_monitor_function_arn" {
@@ -260,21 +303,29 @@ resource "aws_lambda_function" "lambda_tag_state_function" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.tagstate-function.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianTagState"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneTagState"
+    environment = var.environment
   }
 }
 
@@ -296,26 +347,34 @@ resource "aws_lambda_function" "lambda_data_work_flow_function" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianDataWorkflow"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneDataWorkflow"
+    environment = var.environment
   }
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_data_work_flow_trigger" {
-  event_source_arn = aws_sqs_queue.sqs_obsidian_data_workflow_raw.arn
+  event_source_arn = aws_sqs_queue.sqs_blackstone_data_workflow_raw.arn
   function_name    = aws_lambda_function.lambda_data_work_flow_function.arn
 }
 
@@ -332,21 +391,29 @@ resource "aws_lambda_function" "lambda_tag_config_consistency_function" {
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianTagConfigConsistency"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneTagConfigConsistency"
+    environment = var.environment
   }
 }
 
@@ -359,30 +426,38 @@ output "lambda_tag_config_consistency_function_arn" {
   value = aws_lambda_function.lambda_tag_config_consistency_function.arn
 }
 
-# Lambda obsidianDuplicatedTagsMonitor
+# Lambda blackstoneDuplicatedTagsMonitor
 resource "aws_lambda_function" "lambda_duplicated_tags_monitor" {
-  function_name = "obsidianDuplicatedTagsMonitor"
+  function_name = "BlackstoneDuplicatedTagsMonitor"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.obsidian-api.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianDuplicatedTagsMonitor"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneDuplicatedTagsMonitor"
+    environment = var.environment
   }
 }
 
@@ -395,39 +470,65 @@ output "lambda_duplicated_tags_monitor_arn" {
   value = aws_lambda_function.lambda_duplicated_tags_monitor.arn
 }
 
-# Função obsidianMetadataMerger
+# Função blackstoneMetadataMerger
 resource "aws_lambda_function" "lambda_metadata_merger_function" {
-  function_name = "obsidianMetadataMerger"
+  function_name = "BlackstoneMetadataMerger"
   role          = aws_iam_role.iam_lambda.arn
   description   = "Lambda function Monitor Outputs Table"
   memory_size   = var.lambda_memory_size
   timeout       = var.lambda_timeout
   depends_on    = [aws_iam_role.iam_lambda]
 
-  image_uri    = "${aws_ecr_repository.metadata-merger-function.repository_url}:latest"
-  package_type = "Image"
+  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
+  s3_key    = aws_s3_bucket_object.zip_upload.key
+
+  handler = "loader.handler"
+  runtime = "python3.8"
+  lifecycle {
+    ignore_changes = [s3_key]
+  }
 
   vpc_config {
     subnet_ids         = var.lambda_vpc_config_subnet_ids
     security_group_ids = var.lambda_vpc_config_security_group_ids
   }
 
-  tags = {
-    Name        = "obsidianMetadataMerger"
-    environment = var.environment
+  environment {
+    variables = {
+      AWS__Region = var.region # add esta variável em todas as lambdas
+    }
   }
 
-  lifecycle {
-    ignore_changes = [image_uri]
+  tags = {
+    Name        = "BlackstoneMetadataMerger"
+    environment = var.environment
   }
 }
 
 # Event Source Mapping - Agora usando o ARN do Stream de DynamoDB
-resource "aws_lambda_event_source_mapping" "dynamodb_trigger" {
-  event_source_arn  = var.monitor_warning_outputs_table
-  function_name     = aws_lambda_function.lambda_metadata_merger_function.arn
-  enabled           = true
-  batch_size        = 100
+resource "aws_lambda_event_source_mapping" "dynamodb_monitor_warning_outputs_trigger" {
+  event_source_arn       = var.monitor_outputs_metadata_table
+  function_name          = aws_lambda_function.lambda_metadata_merger_function.arn
+  enabled                = true
+  batch_size             = 100
+  parallelization_factor = 1
+  filter_criteria {
+    filter {
+      pattern = jsonencode({
+        "dynamodb" : {
+          "NewImage" : {
+            "pk" : {
+              "S" : [
+                { "prefix" : "SUBGROUP#" },
+                { "prefix" : "GROUP#" }
+              ]
+            }
+          }
+        }
+        }
+      )
+    }
+  }
   starting_position = "LATEST"
 }
 

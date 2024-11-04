@@ -39,17 +39,17 @@ resource "aws_iam_policy" "api" {
           "${aws_sqs_queue.sqs_dataextractor_update_pipoint.arn}",
           "${aws_sqs_queue.sqs_dataextractor_remove_pipoint.arn}",
           "${aws_sqs_queue.sqs_dataextractor_general_pipoint.arn}",
-          "${aws_sqs_queue.sqs_obsidian_data_workflow_raw.arn}",
+          "${aws_sqs_queue.sqs_blackstone_data_workflow_raw.arn}",
           "${aws_sqs_queue.sqs_tag_state_raw.arn}",
           "${aws_sqs_queue.sqs_tag_config_consistency_raw.arn}",
           "${aws_sqs_queue.sqs_data_collection_frequency_raw.arn}",
           "${aws_sqs_queue.sqs_dataextractor_duplicated_pipoint.arn}",
-          "${aws_sqs_queue.sqs_obsidian_component_surveillance_raw.arn}",
-          "${aws_sqs_queue.sqs_obsidian_monitor_trigger.arn}",
+          "${aws_sqs_queue.sqs_blackstone_component_surveillance_raw.arn}",
+          "${aws_sqs_queue.sqs_blackstone_monitor_trigger.arn}",
           "${aws_sqs_queue.sqs_dataextractor_duplicated_pipoint_group.arn}",
           "${aws_sqs_queue.sqs_monitor_job.arn}",
-          "${aws_sqs_queue.sqs_obsidian_data_workflow_raw.arn}",
-          "${aws_sqs_queue.sqs_obsidian_data_quality_raw.arn}"
+          "${aws_sqs_queue.sqs_blackstone_data_workflow_raw.arn}",
+          "${aws_sqs_queue.sqs_blackstone_data_quality_raw.arn}"
         ]
       },
       {

@@ -25,22 +25,20 @@ module "vpc_endpoints" {
 
 resource "aws_dynamodb_table" "raw_tags_table" {
   name             = "obsidian-raw-tags"
-  billing_mode     = "PROVISIONED"
-  stream_enabled   = true
+  billing_mode     = "PAY_PER_REQUEST"
+  stream_enabled   = false
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "RawTagsId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "RawTagsId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
@@ -51,22 +49,20 @@ resource "aws_dynamodb_table" "raw_tags_table" {
 
 resource "aws_dynamodb_table" "module_outputs_table" {
   name             = "obsidian-module-outputs"
-  billing_mode     = "PROVISIONED"
+  billing_mode     = "PAY_PER_REQUEST"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "ModuleOutputsId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "ModuleOutputsId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
@@ -75,24 +71,27 @@ resource "aws_dynamodb_table" "module_outputs_table" {
   }
 }
 
+# criar output para obsidian-module-outputs
+output "module_outputs_table" {
+  value = aws_dynamodb_table.module_outputs_table.stream_arn
+}
+
 resource "aws_dynamodb_table" "module_config_table" {
   name             = "obsidian-module-configs"
-  billing_mode     = "PROVISIONED"
-  stream_enabled   = true
+  billing_mode     = "PAY_PER_REQUEST"
+  stream_enabled   = false
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "ModuleConfigsId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "ModuleConfigsId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
@@ -103,22 +102,20 @@ resource "aws_dynamodb_table" "module_config_table" {
 
 resource "aws_dynamodb_table" "monitor_outputs_metadata_table" {
   name             = "obsidian-monitor-metadata"
-  billing_mode     = "PROVISIONED"
+  billing_mode     = "PAY_PER_REQUEST"
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "MonitorMetadataId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "MonitorMetadataId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
@@ -127,24 +124,26 @@ resource "aws_dynamodb_table" "monitor_outputs_metadata_table" {
   }
 }
 
+output "monitor_outputs_metadata_table" {
+  value = aws_dynamodb_table.monitor_outputs_metadata_table.stream_arn
+}
+
 resource "aws_dynamodb_table" "monitor_warning_outputs_table" {
   name             = "obsidian-monitor-warnings"
-  billing_mode     = "PROVISIONED"
-  stream_enabled   = true
+  billing_mode     = "PAY_PER_REQUEST"
+  stream_enabled   = false
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "MonitorWarningId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "MonitorWarningId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
@@ -153,28 +152,22 @@ resource "aws_dynamodb_table" "monitor_warning_outputs_table" {
   }
 }
 
-output "monitor_warning_outputs_table" {
-  value = aws_dynamodb_table.monitor_outputs_metadata_table.stream_arn
-}
-
 resource "aws_dynamodb_table" "group_config_table" {
   name             = "obsidian-group-configs"
-  billing_mode     = "PROVISIONED"
-  stream_enabled   = true
+  billing_mode     = "PAY_PER_REQUEST"
+  stream_enabled   = false
   stream_view_type = "NEW_IMAGE"
-  read_capacity    = 5000
-  write_capacity   = 5000
-  hash_key         = "GroupConfigId"
-  range_key        = "Timestamp"
+  hash_key         = "pk"
+  range_key        = "sk"
 
   attribute {
-    name = "GroupConfigId"
+    name = "pk"
     type = "S"
   }
 
   attribute {
-    name = "Timestamp"
-    type = "N"
+    name = "sk"
+    type = "S"
   }
 
   tags = {
