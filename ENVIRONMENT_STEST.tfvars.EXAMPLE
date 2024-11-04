@@ -1,4 +1,4 @@
-aws_region = "us-east-x"
+region = "us-east-x"
 aws_profile = "arn:aws:iam::ACCOUNT_ID:user/USER_NAME"
 environment = "environment"
 initial_db_name = "initial_db_name"

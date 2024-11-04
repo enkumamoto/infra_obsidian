@@ -22,20 +22,20 @@ output "sqs_monitor_job_url" {
   value = aws_sqs_queue.sqs_monitor_job.url
 }
 
-output "sqs_obsidian_data_workflow_raw_url" {
-  value = aws_sqs_queue.sqs_obsidian_data_workflow_raw.url
+output "sqs_blackstone_data_workflow_raw_url" {
+  value = aws_sqs_queue.sqs_blackstone_data_workflow_raw.url
 }
 
-output "sqs_obsidian_data_quality_raw_url" {
-  value = aws_sqs_queue.sqs_obsidian_data_quality_raw.url
+output "sqs_blackstone_data_quality_raw_url" {
+  value = aws_sqs_queue.sqs_blackstone_data_quality_raw.url
 }
 
-output "sqs_obsidian_component_surveillance_raw_url" {
-  value = aws_sqs_queue.sqs_obsidian_component_surveillance_raw.url
+output "sqs_blackstone_component_surveillance_raw_url" {
+  value = aws_sqs_queue.sqs_blackstone_component_surveillance_raw.url
 }
 
-output "sqs_obsidian_monitor_trigger_url" {
-  value = aws_sqs_queue.sqs_obsidian_monitor_trigger.url
+output "sqs_blackstone_monitor_trigger_url" {
+  value = aws_sqs_queue.sqs_blackstone_monitor_trigger.url
 }
 
 output "sqs_dataextractor_duplicated_pipoint_group_url" {
@@ -55,9 +55,9 @@ output "sqs_dataextractor_duplicated_pipoint_url" {
 }
 
 output "sqs_data_workflow_raw_url" {
-  value = aws_sqs_queue.sqs_obsidian_data_workflow_raw.url
+  value = aws_sqs_queue.sqs_blackstone_data_workflow_raw.url
 }
 
 output "sqs_data_quality_raw_url" {
-  value = aws_sqs_queue.sqs_obsidian_data_quality_raw.url
+  value = aws_sqs_queue.sqs_blackstone_data_quality_raw.url
 }

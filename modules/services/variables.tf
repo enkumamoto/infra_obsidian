@@ -70,15 +70,19 @@ variable "lambda_monitor_timeout" {
   default = 600
 }
 
-variable "monitor_warning_outputs_table" {
-  type    = string
+variable "monitor_outputs_metadata_table" {
+  type = string
+}
+
+variable "module_outputs_table" {
+  type = string
 }
 
 ##########ECS Cluster Variables#############
-variable "ecs_cluster_id" {
-  type        = string
-  description = "The ID of the ECS cluster"
-}
+# variable "ecs_cluster_id" {
+#   type        = string
+#   description = "The ID of the ECS cluster"
+# }
 
 variable "vpc_config_private_app_subnet_ids" {
   type        = list(string)

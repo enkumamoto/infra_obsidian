@@ -32,10 +32,16 @@ resource "aws_security_group" "allow_postgres" {
   tags = merge(local.tags, { Name = "allow_postgres_${var.environment}" })
 }
 
-resource "aws_rds_cluster" "obsidian_postgresql" {
-  cluster_identifier      = "obsidian-datapolling"
-  engine                  = "aurora-postgresql"
-  engine_mode             = "provisioned"
+resource "aws_rds_cluster" "blackstone_postgresql" {
+  cluster_identifier = "blackstone-datapolling"
+  engine             = "aurora-postgresql"
+  engine_mode        = "provisioned"
+
+  serverlessv2_scaling_configuration {
+    max_capacity = 8.0
+    min_capacity = 0.5
+  }
+
   db_subnet_group_name    = aws_db_subnet_group.default.name
   database_name           = var.initial_db_name
   master_username         = var.master_username
@@ -52,14 +58,17 @@ resource "aws_rds_cluster" "obsidian_postgresql" {
   tags = merge(local.tags, { Name = "postgres_db_${var.environment}" })
 }
 
-resource "aws_rds_cluster_instance" "obsidian_db_instances" {
-  count              = 1
-  identifier         = "obsidian-datapolling-instance-${count.index}"
-  cluster_identifier = aws_rds_cluster.obsidian_postgresql.id
-  availability_zone  = var.region == "us-east-1" ? local.avaliability_zones[count.index] : local.avaliability_zones[count.index % 2]
-  instance_class     = "db.t3.medium" # ou outra classe compatível
-  engine             = aws_rds_cluster.obsidian_postgresql.engine
-  engine_version     = "15.4" # Tente uma versão suportada e estável do Aurora PostgreSQL
+resource "aws_rds_cluster_instance" "blackstone_postgresql_instance" {
+  count = 1
 
-  depends_on = [aws_rds_cluster.obsidian_postgresql]
+  identifier                 = "blackstone-datapolling-instance-${count.index}"
+  cluster_identifier         = aws_rds_cluster.blackstone_postgresql.id
+  instance_class             = "db.serverless"
+  engine                     = "aurora-postgresql"
+  engine_version             = "15.4"
+  publicly_accessible        = false
+  apply_immediately          = true
+  auto_minor_version_upgrade = true
+
+  tags = merge(local.tags, { Name = "postgres_db_instance_${var.environment}" })
 }

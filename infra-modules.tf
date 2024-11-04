@@ -16,15 +16,15 @@ data "aws_security_group" "default" {
   name   = "default"
 }
 
-module "ecs_cluster" {
-  source         = "./modules/ecs_cluster"
-  environment    = var.environment
-  tags_to_append = local.tags_to_append
+# module "ecs_cluster" {
+#   source         = "./modules/ecs_cluster"
+#   environment    = var.environment
+#   tags_to_append = local.tags_to_append
 
-  vpc_config_public_subnet_ids = module.networking.public_subnet_ids
+#   vpc_config_public_subnet_ids = module.networking.public_subnet_ids
 
-  depends_on = [module.networking]
-}
+#   depends_on = [module.networking]
+# }
 
 module "ingestion" {
   source                               = "./modules/services"
@@ -33,10 +33,12 @@ module "ingestion" {
   region                               = var.region
   lambda_vpc_config_subnet_ids         = module.networking.private_app_subnet_ids
   lambda_vpc_config_security_group_ids = [data.aws_security_group.default.id]
-  ecs_cluster_id                       = module.ecs_cluster.ecs_cluster_id
-  vpc_config_private_app_subnet_ids    = module.networking.private_app_subnet_ids
-  vpc_id                               = module.networking.vpc_id
-  monitor_warning_outputs_table        = module.dynamodb.monitor_warning_outputs_table
+  #  ecs_cluster_id                       = module.ecs_cluster.ecs_cluster_id
+  vpc_config_private_app_subnet_ids = module.networking.private_app_subnet_ids
+  vpc_config_public_subnet_ids      = module.networking.public_subnet_ids
+  vpc_id                            = module.networking.vpc_id
+  monitor_outputs_metadata_table    = module.dynamodb.monitor_outputs_metadata_table
+  module_outputs_table              = module.dynamodb.module_outputs_table
 }
 
 module "database" {
