@@ -159,8 +159,8 @@
 
 #   container_definitions = jsonencode([
 #     {
-#       name      = "blackstone-api-Service"
-#       image     = "${aws_ecr_repository.blackstone-api.repository_url}:latest" # Substituir com a imagem da sua API
+#       name      = "obsidian-api-Service"
+#       image     = "${aws_ecr_repository.obsidian-api.repository_url}:latest" # Substituir com a imagem da sua API
 #       essential = true
 #       portMappings = [
 #         {
@@ -198,7 +198,7 @@
 #   # Configuração de load balancer para Nginx responder nas portas configuradas
 #   load_balancer {
 #     target_group_arn = aws_lb_target_group.frontend_alb_target_group.arn
-#     container_name   = "blackstone-ui-Service"
+#     container_name   = "obsidian-ui-Service"
 #     container_port   = 3000
 #   }
 
@@ -220,8 +220,8 @@
 
 #   container_definitions = jsonencode([
 #     {
-#       name      = "blackstone-ui-Service"
-#       image     = "${aws_ecr_repository.blackstone-ui.repository_url}:latest" # Substituir com a imagem da sua API
+#       name      = "obsidian-ui-Service"
+#       image     = "${aws_ecr_repository.obsidian-ui.repository_url}:latest" # Substituir com a imagem da sua API
 #       essential = true
 #       portMappings = [
 #         {
@@ -265,8 +265,8 @@
 
 #   container_definitions = jsonencode([
 #     {
-#       name      = "blackstone-monitor-Service"
-#       image     = "${aws_ecr_repository.blackstone-monitor.repository_url}:latest" # Substituir com a imagem da sua API
+#       name      = "obsidian-monitor-Service"
+#       image     = "${aws_ecr_repository.obsidian-monitor.repository_url}:latest" # Substituir com a imagem da sua API
 #       essential = true
 #       portMappings = [
 #         {
@@ -391,7 +391,7 @@
 
 # resource "aws_iam_role_policy" "password_policy_ssm" {
 #   count = length([for v in var.service_secrets : v]) > 0 ? 1 : 0
-#   name  = "password-policy-ssm-blackstone-${var.environment}"
+#   name  = "password-policy-ssm-obsidian-${var.environment}"
 #   role  = aws_iam_role.ecs_task_execution_role.id
 
 #   policy = <<EOF
@@ -418,14 +418,14 @@
 # }
 
 # resource "aws_cloudwatch_log_group" "ecs_service_log_group" {
-#   name = "ecs/${var.environment}/blackstone-service-log-group"
+#   name = "ecs/${var.environment}/obsidian-service-log-group"
 
 #   tags = local.tags
 # }
 
 # resource "aws_security_group" "allow_service_access" {
 #   name        = "allow_blackstone_service_access_${var.environment}_${substr(uuid(), 0, 3)}_sg"
-#   description = "Allow blackstone alb inbound traffic"
+#   description = "Allow obsidian alb inbound traffic"
 #   vpc_id      = local.vpc_id
 
 #   lifecycle {

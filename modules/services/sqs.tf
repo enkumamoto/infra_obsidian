@@ -63,7 +63,7 @@ resource "aws_sqs_queue" "sqs_dataextractor_general_pipoint" {
 
 # Lambda TagState 
 resource "aws_sqs_queue" "sqs_tag_state_raw" {
-  name                       = "blackstone-tag-state-raw"
+  name                       = "obsidian-tag-state-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -78,7 +78,7 @@ resource "aws_sqs_queue" "sqs_tag_state_raw" {
 
 # Lambda TagConfigConsistency
 resource "aws_sqs_queue" "sqs_tag_config_consistency_raw" {
-  name                       = "blackstone-tag-config-consistency-raw"
+  name                       = "obsidian-tag-config-consistency-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -93,7 +93,7 @@ resource "aws_sqs_queue" "sqs_tag_config_consistency_raw" {
 
 # Lambda DataCollectionFrequency
 resource "aws_sqs_queue" "sqs_data_collection_frequency_raw" {
-  name                       = "blackstone-data-collection-frequency-raw"
+  name                       = "obsidian-data-collection-frequency-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -123,7 +123,7 @@ resource "aws_sqs_queue" "sqs_dataextractor-duplicated-pipoint" {
 
 # Lambda ComponentSurveillance
 resource "aws_sqs_queue" "sqs_blackstone_component_surveillance_raw" {
-  name                       = "blackstone-component-surveillance-raw"
+  name                       = "obsidian-component-surveillance-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -138,7 +138,7 @@ resource "aws_sqs_queue" "sqs_blackstone_component_surveillance_raw" {
 
 # Lambda MonitorTrigger
 resource "aws_sqs_queue" "sqs_blackstone_monitor_trigger" {
-  name                       = "blackstone-monitor-trigger"
+  name                       = "obsidian-monitor-trigger"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -195,7 +195,7 @@ resource "aws_sqs_queue" "sqs_monitor_job" {
 }
 
 resource "aws_sqs_queue" "sqs_blackstone_data_workflow_raw" {
-  name                       = "blackstone-data-workflow-raw"
+  name                       = "obsidian-data-workflow-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
@@ -209,7 +209,7 @@ resource "aws_sqs_queue" "sqs_blackstone_data_workflow_raw" {
 }
 
 resource "aws_sqs_queue" "sqs_blackstone_data_quality_raw" {
-  name                       = "blackstone-data-quality-raw"
+  name                       = "obsidian-data-quality-raw"
   delay_seconds              = var.sqs_delayseconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds

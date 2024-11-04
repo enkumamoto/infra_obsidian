@@ -1,4 +1,0 @@
-bucket = "bucket-eiji-teste-tfstate-tf-state"
-key = "ENVIRONMENT_STEST.tfstate"
-region = "us-east-1"
-profile = "arn:aws:iam::930837413038:user/exec-local"

@@ -33,7 +33,7 @@ resource "aws_security_group" "allow_postgres" {
 }
 
 resource "aws_rds_cluster" "blackstone_postgresql" {
-  cluster_identifier = "blackstone-datapolling"
+  cluster_identifier = "obsidian-datapolling"
   engine             = "aurora-postgresql"
   engine_mode        = "provisioned"
 
@@ -61,7 +61,7 @@ resource "aws_rds_cluster" "blackstone_postgresql" {
 resource "aws_rds_cluster_instance" "blackstone_postgresql_instance" {
   count = 1
 
-  identifier                 = "blackstone-datapolling-instance-${count.index}"
+  identifier                 = "obsidian-datapolling-instance-${count.index}"
   cluster_identifier         = aws_rds_cluster.blackstone_postgresql.id
   instance_class             = "db.serverless"
   engine                     = "aurora-postgresql"

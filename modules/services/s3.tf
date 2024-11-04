@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "log-bucket" {
-  bucket = "blackstone-lb-logs-${var.environment}"
+  bucket = "obsidian-lb-logs-${var.environment}"
 
   tags = {
     Environment = var.environment
@@ -7,11 +7,11 @@ resource "aws_s3_bucket" "log-bucket" {
 }
 
 resource "aws_s3_bucket" "athena_bucket" {
-  bucket = "blackstone-athena-${var.environment}"
+  bucket = "obsidian-athena-${var.environment}"
 }
 
 resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = "blackstone-lambdas-${var.environment}"
+  bucket = "obsidian-lambdas-${var.environment}"
   # acl    = "private"
 
   tags = {

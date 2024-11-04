@@ -1,5 +1,5 @@
-resource "aws_kinesis_stream" "blackstone-kinesis" {
-  name             = "blackstone-kinesis-${var.environment}"
+resource "aws_kinesis_stream" "obsidian-kinesis" {
+  name             = "obsidian-kinesis-${var.environment}"
   retention_period = 48
 
   shard_level_metrics = [

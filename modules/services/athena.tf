@@ -1,5 +1,5 @@
 resource "aws_athena_workgroup" "test" {
-  name = "BlackStone-Athena-Workgroup-${var.environment}"
+  name = "obsidian-Athena-Workgroup-${var.environment}"
 
   configuration {
     result_configuration {
@@ -14,14 +14,14 @@ resource "aws_athena_workgroup" "test" {
   }
 }
 
-resource "aws_athena_database" "blackstone-athena-db" {
-  name   = "blackstone"
+resource "aws_athena_database" "obsidian-athena-db" {
+  name   = "obsidian"
   bucket = aws_s3_bucket.athena_bucket.id
 }
 
-resource "aws_athena_named_query" "blackstone-athena-query" {
+resource "aws_athena_named_query" "obsidian-athena-query" {
   name      = "raw_tags_partioned"
   workgroup = aws_athena_workgroup.test.id
-  database  = aws_athena_database.blackstone-athena-db.name
-  query     = "SELECT * FROM ${aws_athena_database.blackstone-athena-db.name} limit 10;"
+  database  = aws_athena_database.obsidian-athena-db.name
+  query     = "SELECT * FROM ${aws_athena_database.obsidian-athena-db.name} limit 10;"
 }
